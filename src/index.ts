@@ -3,7 +3,7 @@ import {thonkify} from "./thonkify";
 import * as Discord from 'discord.js'
 import {StatusServer} from "./StatusServer";
 
-const server = new StatusServer(process.env["port"] ?? 80);
+const server = new StatusServer(process.env["PORT"] ?? 80);
 const client = new Discord.Client();
 
 client.on('ready', () => {
