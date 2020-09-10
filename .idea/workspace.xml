@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b0cf0a50-0604-42b4-856b-750872abc66c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-    </list>
+    <list default="true" id="b0cf0a50-0604-42b4-856b-750872abc66c" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,7 +40,7 @@
       <node-interpreter value="project" />
       <envs>
         <env name="port" value="8080" />
-        <env name="token" value="NzE1NTcxNTk2MTUyMTQzOTM0.Xs_J-w.byYsxFRjuyCSn5GznbFm0ukeDeM" />
+        <env name="token" value="NzE1NTcxNTk2MTUyMTQzOTM0.Xs_J-w.ni-4Nuf85FPu55MEusE1fsUEtU0" />
       </envs>
       <method v="2" />
     </configuration>
@@ -60,7 +58,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1599774783796</updated>
-      <workItem from="1599774784862" duration="449000" />
+      <workItem from="1599774784862" duration="540000" />
     </task>
     <servers />
   </component>
@@ -68,10 +66,10 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1599775077354">
+    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1599775328299">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1599775077354" />
+    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1599775328299" />
     <state x="827" y="269" key="EnvironmentVariablesDialog" timestamp="1599775076104">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
