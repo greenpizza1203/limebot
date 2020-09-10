@@ -1,5 +1,4 @@
-// const gm = require('gm');
-import * as gm from "gm";
+import gm from "gm";
 import {ensureDirSync} from "fs-extra";
 
 ensureDirSync(`temp`)
@@ -29,11 +28,8 @@ export function thonkify(text: string, outputPath: string, callback: () => void 
     }
 
     return new Promise((res, rej) => {
-
         image.write(outputPath, function (err) {
             err ? rej(err) : res()
-            // if (err) rej(err); else res()
-            // console.log(arguments);
         });
     })
 }

@@ -1,8 +1,9 @@
 import {thonkify} from "./thonkify";
 
-// thonkify("test", `temp/temp.png`)
 import * as Discord from 'discord.js'
+import {StatusServer} from "./StatusServer";
 
+const server = new StatusServer(process.env["port"] ?? 80);
 const client = new Discord.Client();
 
 client.on('ready', () => {
@@ -20,6 +21,5 @@ client.on('message', async msg => {
 
     }
 });
-console.log(process.env["token"])
 
 client.login(process.env["token"]);
