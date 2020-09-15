@@ -1,9 +1,7 @@
 import {thonkify} from "./thonkify";
-
 import * as Discord from 'discord.js'
-import {StatusServer} from "./StatusServer";
+import data from "./data.json"
 
-const server = new StatusServer(process.env["PORT"] ?? 80);
 const client = new Discord.Client();
 
 client.on('ready', () => {
@@ -11,6 +9,9 @@ client.on('ready', () => {
 });
 
 client.on('message', async msg => {
+    if (process.env.DEV && msg.channel.id !== data.botTest) return
+    if (!process.env.DEV && msg.channel.id === data.botTest) return
+
     if (msg.content === 'ping') {
         await msg.reply('Pong!');
     }
