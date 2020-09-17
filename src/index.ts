@@ -18,7 +18,9 @@ client.on('message', async msg => {
     if (msg.content.startsWith("!thonkify ") || msg.content.startsWith("!thonk ")) {
 
         await thonkify(msg.content.substr(msg.content.indexOf(" ") + 1), `temp/temp.png`)
-        msg.channel.send("", {files: ["temp/temp.png"]})
+        await msg.reply("", {files: ["temp/temp.png"]})
+        msg.delete()
+        // msg.channel.send("", {files: ["temp/temp.png"]})
 
     }
 });
