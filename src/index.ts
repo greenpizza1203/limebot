@@ -14,14 +14,17 @@ client.on('message', async msg => {
 
     if (msg.content === 'ping') {
         await msg.reply('Pong!');
-    }
-    if (msg.content.startsWith("!thonkify ") || msg.content.startsWith("!thonk ")) {
+    } else if (msg.content.startsWith("!thonkify ") || msg.content.startsWith("!thonk ")) {
 
         await thonkify(msg.content.substr(msg.content.indexOf(" ") + 1), `temp/temp.png`)
         await msg.reply("", {files: ["temp/temp.png"]})
         msg.delete()
         // msg.channel.send("", {files: ["temp/temp.png"]})
 
+    } else if (msg.content.toLowerCase() === "f") {
+        let bongocat = msg.guild.emojis.cache.find(emoji => emoji.name === "rip");
+        console.log(bongocat.toString())
+        msg.channel.send(`${msg.author.username} has paid their respects <a:rip:765555262898700288>`)
     }
 });
 
