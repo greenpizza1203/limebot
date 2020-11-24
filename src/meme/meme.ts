@@ -49,13 +49,17 @@ export async function getMeme(template_id: string, boxes: { [p: string]: string 
 export async function meme(msg: Message) {
     const command = msg.content.split(' ');
     if (command[1] == "alias") {
-        client.query("INSERT INTO memes (name, id) " +
-            `VALUES('${command[2]}','${command[3]}') ` +
-            "ON CONFLICT (name) " +
-            "DO UPDATE SET id = EXCLUDED.id;")
+        try {
+            await client.query("INSERT INTO memes (name, id) " +
+                `VALUES('${command[2]}','${command[3]}') ` +
+                "ON CONFLICT (name) " +
+                "DO UPDATE SET id = EXCLUDED.id;");
+            msg.reply(`aliased ${command[2]} to ${command[3]}`)
+        } catch (e) {
+            msg.reply(`Alias error`)
+        }
     } else {
         const boxes = getBoxes(msg.content)
-        // console.log(boxes)
         let s = `SELECT * FROM memes WHERE Name = '${command[1]}';`;
         const {rows: [row]} = await client.query(s)
         let id = row?.id ?? command[1];
