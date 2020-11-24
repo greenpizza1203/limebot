@@ -11,17 +11,12 @@ const client = new Client({
 });
 
 export async function loadDatabase() {
-
-
     client.connect();
-
     await client.query('CREATE TABLE IF NOT EXISTS memes(' +
         'name varchar(50) NOT NULL,' +
         'id varchar(200) NOT NULL,' +
         'PRIMARY KEY (name)' +
         ')');
-
-
 }
 
 export function getBoxes(content: string): { [p: string]: string } {
@@ -42,7 +37,7 @@ export async function getMeme(template_id: string, boxes: { [p: string]: string 
         ...boxes
     };
     let response = await axios.post("https://api.imgflip.com/caption_image", null, {params});
-    console.log(response)
+    // console.log(response)
     return response?.data?.data?.url
 }
 
@@ -64,7 +59,7 @@ export async function meme(msg: Message) {
         const {rows: [row]} = await client.query(s)
         let id = row?.id ?? command[1];
         const memeUrl = await getMeme(id, boxes)
-        console.log(memeUrl)
+        // console.log(memeUrl)
         if (memeUrl) msg.reply({files: [memeUrl]})
     }
 
