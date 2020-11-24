@@ -65,7 +65,7 @@ export async function meme(msg: Message) {
         let id = row?.id ?? command[1];
         const memeUrl = await getMeme(id, boxes)
         console.log(memeUrl)
-        if (memeUrl) msg.reply(memeUrl)
+        if (memeUrl) msg.reply({files: [memeUrl]})
     }
 
 }
