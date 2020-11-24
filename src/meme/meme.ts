@@ -1,6 +1,7 @@
 import {Message} from "discord.js";
 
 import {Client} from "pg";
+import axios from "axios";
 
 const client = new Client({
     connectionString: process.env.DATABASE_URL || 'postgresql://postgres:chicken@localhost:5432/temp',
@@ -23,13 +24,44 @@ export async function loadDatabase() {
 
 }
 
-export function meme(msg: Message) {
+export function getBoxes(content: string): { [p: string]: string } {
+    let chunk = content.substring("!meme ".length);
+    let number = chunk.indexOf(" ");
+    if (number == -1) return {}
+    const params: { [boxIndex: string]: string } = {};
+    chunk.substring(number + 1).split(';').forEach((string, index) => params[`boxes[${index}][text]`] = string)
+    return params
+}
+
+export async function getMeme(template_id: string, boxes: { [p: string]: string }) {
+
+    let params = {
+        template_id,
+        username: "greenpizza12",
+        password: "chicken",
+        ...boxes
+    };
+    let response = await axios.post("https://api.imgflip.com/caption_image", null, {params});
+    console.log(response)
+    return response?.data?.data?.url
+}
+
+export async function meme(msg: Message) {
     const command = msg.content.split(' ');
     if (command[1] == "alias") {
         client.query("INSERT INTO memes (name, id) " +
             `VALUES('${command[2]}','${command[3]}') ` +
             "ON CONFLICT (name) " +
             "DO UPDATE SET id = EXCLUDED.id;")
+    } else {
+        const boxes = getBoxes(msg.content)
+        // console.log(boxes)
+        let s = `SELECT * FROM memes WHERE Name = '${command[1]}';`;
+        const {rows: [row]} = await client.query(s)
+        let id = row?.id ?? command[1];
+        const memeUrl = await getMeme(id, boxes)
+        console.log(memeUrl)
+        if (memeUrl) msg.reply(memeUrl)
     }
 
 }
