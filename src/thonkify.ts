@@ -13,8 +13,7 @@ for (let i = 0; i < 26; i++) {
 }
 
 
-export function thonkify(text: string, outputPath: string, callback: () => void = () => {
-}) {
+export function thonkify(text: string, outputPath: string) {
 
 
     const image = gm();
@@ -30,7 +29,7 @@ export function thonkify(text: string, outputPath: string, callback: () => void 
     }
 
     return new Promise((res, rej) => {
-        image.write(outputPath, function (err) {
+        image.write(outputPath, err => {
             err ? rej(err) : res()
         });
     })
