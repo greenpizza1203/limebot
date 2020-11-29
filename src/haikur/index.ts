@@ -18,7 +18,6 @@ function getHaiku(words: string[]) {
             totalSyllables += syllables;
             // if this is the last word, flush the buffer
             if (isLastWord) {
-                decodeURIComponent(textSoFar.trim())
                 lines[pIndex] = textSoFar.trim();
                 pIndex++;
             }
@@ -26,7 +25,6 @@ function getHaiku(words: string[]) {
         // if this new word perfectly fills out the line, add to and flush the buffer
         else if (totalSyllables + syllables == h.pattern[pIndex]) {
             textSoFar = textSoFar + ' ' + newWord;
-            decodeURIComponent(textSoFar.trim())
             lines[pIndex] = textSoFar.trim();
             if (pIndex < 2) {
                 textSoFar = '';
@@ -37,13 +35,11 @@ function getHaiku(words: string[]) {
             // this new word needs to spill to the next line, so flush the existing buffer
         // and then start a new buffer with this new word
         else {
-            decodeURIComponent(textSoFar.trim())
             lines[pIndex] = textSoFar.trim();
             textSoFar = newWord;
             totalSyllables = syllables;
             pIndex++;
             if (isLastWord) {
-                decodeURIComponent(textSoFar.trim())
                 lines[pIndex] = textSoFar.trim();
                 pIndex++;
             }
@@ -64,6 +60,3 @@ export default function (word: string) {
     return haiku.map(line => line.split('-').join(''))
 }
 
-function decodeURIComponent(text: string) {
-    // console.log(text)
-}

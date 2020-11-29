@@ -24,7 +24,7 @@ export default async function haiku(msg: Message) {
 
     // const words = msg.content.split(' ')
     let sum = 0
-    const a = haikur(msg.content);
+    const a = haikur(msg.cleanContent);
     console.log(a)
     // const b = await Promise.all(msg.content.split(' ').map(async word => await hyphenate(word)));
     // const words = string.split()

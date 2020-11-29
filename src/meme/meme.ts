@@ -19,12 +19,16 @@ export async function loadDatabase() {
         ')');
 }
 
+const def = {"boxes[0][text]": " "}
+
 export function getBoxes(content: string): { [p: string]: string } {
     let chunk = content.substring("!meme ".length);
     let number = chunk.indexOf(" ");
-    if (number == -1) return {}
+    if (number == -1) return def
     const params: { [boxIndex: string]: string } = {};
-    chunk.substring(number + 1).split(';').forEach((string, index) => params[`boxes[${index}][text]`] = string)
+    let chunks = chunk.substring(number + 1).split(';');
+    if (chunks.length == 0) return def
+    chunks.forEach((string, index) => params[`boxes[${index}][text]`] = string)
     return params
 }
 
@@ -37,7 +41,7 @@ export async function getMeme(template_id: string, boxes: { [p: string]: string 
         ...boxes
     };
     let response = await axios.post("https://api.imgflip.com/caption_image", null, {params});
-    // console.log(response)
+
     return response?.data?.data?.url
 }
 
@@ -59,7 +63,6 @@ export async function meme(msg: Message) {
         const {rows: [row]} = await client.query(s)
         let id = row?.id ?? command[1];
         const memeUrl = await getMeme(id, boxes)
-        // console.log(memeUrl)
         if (memeUrl) msg.reply({files: [memeUrl]})
     }
 
