@@ -1,4 +1,4 @@
-import {Message} from "discord.js";
+import {Message, MessageEmbed, MessageEmbedOptions} from "discord.js";
 import haikur from "./haikur"
 // hyphenator.then(res => console.log(res))
 // let hyper;
@@ -23,9 +23,19 @@ import haikur from "./haikur"
 export default async function haiku(msg: Message) {
 
     // const words = msg.content.split(' ')
-    let sum = 0
     const a = haikur(msg.cleanContent);
+    if (!a) return
+    const data: MessageEmbedOptions = {
+        "description": `*${a[0]}*\n\n*${a[1]}*\n\n*${a[2]}*`,
+        "url": "https://discordapp.com",
+        "color": msg.member.displayColor,
+        "footer": {
+            "text": `- ${msg.member.displayName}`
+        }
+    };
+    msg.channel.send(new MessageEmbed(data));
     console.log(a)
+    // msg.channel.sen
     // const b = await Promise.all(msg.content.split(' ').map(async word => await hyphenate(word)));
     // const words = string.split()
     // console.log(a)
@@ -39,3 +49,5 @@ export default async function haiku(msg: Message) {
     // if (sum != 13) return;
 
 }
+
+const huh = {}

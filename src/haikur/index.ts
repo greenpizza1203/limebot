@@ -9,10 +9,11 @@ function getHaiku(words: string[]) {
     let pIndex = 0;
     for (let w = 0; w < words.length; w++) {
         const newWord = words[w];
-        if (pIndex > 2) pIndex = 2;  // only 3 lines allowed
+        if (pIndex > 2) return undefined;  // only 3 lines allowed
         const syllables = newWord.split(/@@|[-]/).length;
         const isLastWord = w == words.length - 1;
         // if this new word fits on this line, add it to the buffer
+
         if (totalSyllables + syllables < h.pattern[pIndex]) {
             textSoFar = textSoFar + ' ' + newWord;
             totalSyllables += syllables;
@@ -21,20 +22,17 @@ function getHaiku(words: string[]) {
                 lines[pIndex] = textSoFar.trim();
                 pIndex++;
             }
-        }
-        // if this new word perfectly fills out the line, add to and flush the buffer
-        else if (totalSyllables + syllables == h.pattern[pIndex]) {
+        } else if (totalSyllables + syllables == h.pattern[pIndex]) {
             textSoFar = textSoFar + ' ' + newWord;
             lines[pIndex] = textSoFar.trim();
             if (pIndex < 2) {
                 textSoFar = '';
                 totalSyllables = 0;
+            } else {
+                if (isLastWord) return lines
             }
             pIndex++;
-        }
-            // this new word needs to spill to the next line, so flush the existing buffer
-        // and then start a new buffer with this new word
-        else {
+        } else {
             lines[pIndex] = textSoFar.trim();
             textSoFar = newWord;
             totalSyllables = syllables;
@@ -45,18 +43,25 @@ function getHaiku(words: string[]) {
             }
         }
     }
-    return lines;
+
+    return undefined;
 }
 
-export default function (word: string) {
+export default function haikur(word: string) {
     let broken = Hyphenator.hyphenate(word, "en");
-    const words = broken.split(' ')
+    const words = broken.split(' ').map(it => it.trim())
     let haiku = getHaiku(words);
+    if (!haiku) return undefined
 
-    haiku.forEach((line, index) => {
-        if (line.split(' ').join('-').split('-').length != h.pattern[index]) return undefined;
-    })
+    let notHaiku = haiku.some((line, index) => {
+        let strings1 = line.split(' ').join('-').split('-');
+        if (strings1.length != h.pattern[index]) return true;
+    });
+    if (notHaiku) return undefined;
 
     return haiku.map(line => line.split('-').join(''))
 }
+
+// let message = haikur("this is a word breaking test to see if it can detect line breaks across words");
+// console.log(message)
 

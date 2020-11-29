@@ -4,6 +4,7 @@ import data from "./data.json"
 import webhook from "./webhoook"
 import haiku from "./haiku"
 import {loadDatabase, meme} from "./meme/meme";
+import {Message} from "discord.js";
 
 const client = new Discord.Client();
 
@@ -28,7 +29,7 @@ client.on('message', async msg => {
     } else if (msg.content.toLowerCase() === "f") {
         let bongocat = msg.guild.emojis.cache.find(emoji => emoji.name === "rip");
         console.log(bongocat.toString())
-        msg.channel.send(`${msg.author.username} has paid their respects <a:rip:765555262898700288>`)
+        msg.channel.send(`${msg.member.displayName} has paid their respects <a:rip:765555262898700288>`)
     } else if (msg.content.startsWith("!webhook ")) {
         webhook(msg)
     } else if (msg.content.startsWith("!meme ")) {
