@@ -23,9 +23,9 @@ export function thonkify(text: string, outputPath: string) {
         if (!letterPath) {
             letterPath = images.nothing;
         }
-        image.append(`${__dirname}/images/${letterPath}`).append(true);
+        image.append(`${__dirname}/../images/${letterPath}`).append(true);
 
-        if (i != text.length - 1) image.append(`${__dirname}/images/gap.png`).append(true);
+        if (i != text.length - 1) image.append(`${__dirname}/../images/gap.png`).append(true);
     }
 
     return new Promise((res, rej) => {

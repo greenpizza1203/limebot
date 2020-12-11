@@ -3,8 +3,8 @@ import * as Discord from 'discord.js'
 import data from "./data.json"
 import webhook from "./webhoook"
 import haiku from "./haiku"
-import {loadDatabase, meme} from "./meme/meme";
-import {Message} from "discord.js";
+import {loadDatabase, meme} from "./meme";
+import quizlet from "./quizlet";
 
 const client = new Discord.Client();
 
@@ -24,7 +24,6 @@ client.on('message', async msg => {
         await thonkify(msg.content.substr(msg.content.indexOf(" ") + 1), `temp/temp.png`)
         await msg.reply("", {files: ["temp/temp.png"]})
         msg.delete()
-        // msg.channel.send("", {files: ["temp/temp.png"]})
 
     } else if (msg.content.toLowerCase() === "f") {
         let bongocat = msg.guild.emojis.cache.find(emoji => emoji.name === "rip");
@@ -34,9 +33,10 @@ client.on('message', async msg => {
         webhook(msg)
     } else if (msg.content.startsWith("!meme ")) {
         meme(msg)
-
+    } else if (msg.content.startsWith("!quizlet ")) {
+        quizlet(msg)
     } else {
-        haiku(msg)
+        // haiku(msg)
     }
 });
 
@@ -44,6 +44,7 @@ async function init() {
     await loadDatabase()
     client.login(process.env["token"]);
 }
+
 init()
 
 // import haiku from "./haiku";
