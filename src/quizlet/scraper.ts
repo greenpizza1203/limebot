@@ -11,25 +11,50 @@ const scaper = got.extend({
 
 export function findClosest(question: string, data: any) {
     const stuff = data.flatMap(({word, definition}) => [word, definition])
-    // console.log(stuff)
-    // const questions = data.map()
-    // const answers = data.map(({word}) => answers)
     const matches = findBestMatch(question, stuff);
-    console.log(matches)
     return data[Math.floor(matches.bestMatchIndex / 2)]
 }
 
-export default async function scraper(question: string, url: string) {
-    const data = await getData(url);
+
+export default async function scraper(question: string, results: { id: number; url: string }[]) {
+    const data = []
+    let allowedOthers = 1;
+    for (let result of results) {
+        let filePath = `cache/${result.id}.json`;
+        let retrieve;
+        try {
+            retrieve = await readJSON(filePath)
+            console.log("using " + result.id)
+        } catch (e) {
+            if (allowedOthers < 1) break;
+            allowedOthers--;
+            console.log("scraping quizlet id " + result.id)
+            retrieve = await scapeHTML(result.url)
+            await writeJSON(filePath, retrieve)
+        }
+        data.push(...retrieve)
+    }
+    console.log(data.length)
+
+    // const data = await getData(urls);
+
     return findClosest(question, data)
 }
 
+export function getUrl(result: Result): { id: number; url: string } {
+    const url = result.link;
+    let parts = parse(url).pathname.split('/');
+    let id = parts.find(part => (+part).toString() == part);
+    if (!id) throw "unable to process quizlet url" + url;
+    return {url: url, id: +id};
+}
 
 async function getData(url: string): Promise<{ definition: any; word: any }[]> {
     let parts = parse(url).pathname.split('/');
     let id = parts.find(part => (+part).toString() == part)
     if (!id) throw "unable to process quizlet url" + url
     let filePath = `cache/${id}.json`;
+
     try {
         return await readJSON(filePath)
     } catch (e) {
@@ -41,6 +66,7 @@ async function getData(url: string): Promise<{ definition: any; word: any }[]> {
 }
 
 async function scapeHTML(url: string) {
+
     const html = (await scaper.get(url)).body;
 
     const $ = cheerio.load(html, {normalizeWhitespace: false, xmlMode: false, decodeEntities: true});
