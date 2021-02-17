@@ -2,9 +2,8 @@ import {thonkify} from "./thonkify";
 import * as Discord from 'discord.js'
 import data from "./data.json"
 import webhook from "./webhoook"
-import haiku from "./haiku"
 import {loadDatabase, meme} from "./meme";
-import quizlet from "./quizlet";
+import {schoology} from "./schoology";
 
 const client = new Discord.Client();
 
@@ -33,10 +32,9 @@ client.on('message', async msg => {
         webhook(msg)
     } else if (msg.content.startsWith("!meme ")) {
         meme(msg)
-    } else if (msg.content.startsWith("!quizlet ")) {
-        quizlet(msg)
-    } else {
-        // haiku(msg)
+    } else if (msg.content.startsWith("!schoology "))  {
+        schoology(msg)
+
     }
 });
 
