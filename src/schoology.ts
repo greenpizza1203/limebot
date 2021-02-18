@@ -18,7 +18,7 @@ addOAuthInterceptor(client, {
 
 export async function schoology(message: Message) {
     const [section, assignment] = message.content.substring("!schoology ".length).split(' ');
-    const response = await client.get("https://api.schoology.com/v1/sections/2920104224/assignments/4682160774")
+    const response = await client.get(`https://api.schoology.com/v1/sections/${section}/assignments/${assignment}`)
     const body = await response.data
     const printData = {
         "Title:  ": body.title,
@@ -37,4 +37,7 @@ export async function schoology(message: Message) {
 }
 
 // @ts-ignore
-schoology({content: "!schoology 2920104224 4682160774",reply:()=>{}})
+schoology({
+    content: "!schoology 2920066394 4698303838", reply: () => {
+    }
+})
