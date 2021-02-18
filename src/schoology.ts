@@ -35,9 +35,9 @@ export async function schoology(message: Message) {
 
 
 }
-
-// @ts-ignore
-schoology({
-    content: "!schoology 2920066394 4698303838", reply: () => {
-    }
-})
+//
+// // @ts-ignore
+// schoology({
+//     content: "!schoology 2920066394 4698303838", reply: () => {
+//     }
+// })
