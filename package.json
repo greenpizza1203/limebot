@@ -17,6 +17,7 @@
     "ts-node-dev": "^1.1.1"
   },
   "dependencies": {
+    "@google-cloud/compute": "^2.4.3",
     "@types/pg": "^7.14.10",
     "axios": "^0.21.1",
     "axios-oauth-1.0a": "^0.2.1",
