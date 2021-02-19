@@ -2,7 +2,7 @@ import {thonkify} from "./thonkify";
 import * as Discord from 'discord.js'
 import data from "./data.json"
 import webhook from "./webhoook"
-import {loadDatabase, meme} from "./meme";
+import {initPosgres, loadDatabase, meme} from "./meme";
 import {schoology} from "./schoology";
 
 const client = new Discord.Client();
@@ -39,7 +39,11 @@ client.on('message', async msg => {
 });
 
 async function init() {
-    await loadDatabase()
+    await initPosgres()
+    meme({
+        content: "!meme list", reply: () => {
+        }
+    })
     client.login(process.env["token"]);
 }
 

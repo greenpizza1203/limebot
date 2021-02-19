@@ -1,22 +1,12 @@
 import {Message} from "discord.js";
-
-import {Client} from "pg";
 import axios from "axios";
+import {Postgres} from "./postgres";
 
-const client = new Client({
-    connectionString: process.env.DATABASE_URL || 'postgresql://postgres:chicken@localhost:5432/temp',
-    ssl: process.env.DATABASE_URL ? {
-        rejectUnauthorized: false
-    } : false
-});
+let postgres;
 
-export async function loadDatabase() {
-    client.connect();
-    await client.query('CREATE TABLE IF NOT EXISTS memes(' +
-        'name varchar(50) NOT NULL,' +
-        'id varchar(200) NOT NULL,' +
-        'PRIMARY KEY (name)' +
-        ')');
+export async function initPosgres() {
+    postgres = new Postgres();
+    await postgres.init();
 }
 
 const def = {"boxes[0][text]": " "}
@@ -47,9 +37,16 @@ export async function getMeme(template_id: string, boxes: { [p: string]: string 
 
 export async function meme(msg: Message) {
     const command = msg.content.split(' ');
-    if (command[1] == "alias") {
+    if (command[1] == "list") {
+        const result = await postgres.query("SELECT * FROM memes")
+        if (result?.rows?.length) {
+            let map = result.rows.map(({name, id}) => name + " " + id);
+            let finalString = map.join('\n');
+            msg.reply("\nAlias list\n" + finalString)
+        }
+    } else if (command[1] == "alias") {
         try {
-            await client.query("INSERT INTO memes (name, id) " +
+            await postgres.query("INSERT INTO memes (name, id) " +
                 `VALUES('${command[2]}','${command[3]}') ` +
                 "ON CONFLICT (name) " +
                 "DO UPDATE SET id = EXCLUDED.id;");
@@ -60,10 +57,11 @@ export async function meme(msg: Message) {
     } else {
         const boxes = getBoxes(msg.content)
         let s = `SELECT * FROM memes WHERE Name = '${command[1]}';`;
-        const {rows: [row]} = await client.query(s)
+        const {rows: [row]} = await postgres.query(s)
         let id = row?.id ?? command[1];
         const memeUrl = await getMeme(id, boxes)
         if (memeUrl) msg.reply({files: [memeUrl]})
     }
-
 }
+
+
