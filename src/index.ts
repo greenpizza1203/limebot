@@ -1,10 +1,10 @@
 import {thonkify} from "./thonkify";
 import * as Discord from 'discord.js'
-import data from "./data.json"
 import webhook from "./webhoook"
-import {initPosgres, meme} from "./meme";
+import {meme} from "./meme";
 import {schoology} from "./schoology";
 
+const botTestChannelId = "720444800083689553";
 const client = new Discord.Client();
 
 client.on('ready', () => {
@@ -12,8 +12,8 @@ client.on('ready', () => {
 });
 
 client.on('message', async msg => {
-    if (process.env.DEV && msg.channel.id !== data.botTest) return
-    if (!process.env.DEV && msg.channel.id === data.botTest) return
+    if (process.env.DEV && msg.channel.id !== botTestChannelId) return
+    if (!process.env.DEV && msg.channel.id === botTestChannelId) return
     if (msg.author.bot) return;
 
     if (msg.content === 'ping') {
@@ -39,7 +39,7 @@ client.on('message', async msg => {
 });
 
 async function init() {
-    await initPosgres()
+    // await initPosgres()
     // meme({
     //     content: "!meme list", reply: () => {
     //     }

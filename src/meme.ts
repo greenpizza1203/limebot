@@ -2,12 +2,7 @@ import {Message} from "discord.js";
 import axios from "axios";
 import {Postgres} from "./postgres";
 
-let postgres;
-
-export async function initPosgres() {
-    postgres = new Postgres();
-    await postgres.init();
-}
+let postgres = new Postgres();
 
 const def = {"boxes[0][text]": " "}
 

@@ -28,7 +28,7 @@ export function thonkify(text: string, outputPath: string) {
         if (i != text.length - 1) image.append(`${__dirname}/../images/gap.png`).append(true);
     }
 
-    return new Promise((res, rej) => {
+    return new Promise<void>((res, rej) => {
         image.write(outputPath, err => {
             err ? rej(err) : res()
         });
