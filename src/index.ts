@@ -1,8 +1,9 @@
 import {thonkify} from "./thonkify";
 import * as Discord from 'discord.js'
-import webhook from "./webhoook"
 import {meme} from "./meme";
 import {schoology} from "./schoology";
+import {minecraft} from "./minecraft";
+import {Message} from "discord.js";
 
 const botTestChannelId = "720444800083689553";
 const client = new Discord.Client();
@@ -10,6 +11,12 @@ const client = new Discord.Client();
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
+const funcs:Record<string, (message:Message) => {}> = {
+    thonkify,
+    meme,
+    schoology,
+    minecraft
+}
 
 client.on('message', async msg => {
     if (process.env.DEV && msg.channel.id !== botTestChannelId) return
@@ -20,21 +27,18 @@ client.on('message', async msg => {
         await msg.reply('Pong!');
     } else if (msg.content.startsWith("!thonkify ") || msg.content.startsWith("!thonk ")) {
 
-        await thonkify(msg.content.substr(msg.content.indexOf(" ") + 1), `temp/temp.png`)
-        await msg.reply("", {files: ["temp/temp.png"]})
-        msg.delete()
+    thonkify(msg)
 
     } else if (msg.content.toLowerCase() === "f") {
         let bongocat = msg.guild.emojis.cache.find(emoji => emoji.name === "rip");
         console.log(bongocat.toString())
         msg.channel.send(`${msg.member.displayName} has paid their respects <a:rip:765555262898700288>`)
-    } else if (msg.content.startsWith("!webhook ")) {
-        webhook(msg)
     } else if (msg.content.startsWith("!meme ")) {
         meme(msg)
-    } else if (msg.content.startsWith("!schoology "))  {
+    } else if (msg.content.startsWith("!schoology ")) {
         schoology(msg)
-
+    } else if (msg.content.startsWith("!minecraft ")) {
+minecraft(msg)
     }
 });
 
