@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
-    "install": "tsc",
-    "start": "node build/index.js"
+    "start": "ts-node src/index.ts"
   },
   "keywords": [],
   "author": "",
