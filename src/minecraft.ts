@@ -10,7 +10,21 @@ const zone = compute.zone('us-east4-c');
 const vm = zone.vm('minecraft');
 let cacheIP;
 const {MessageAttachment} = require('discord.js');
-v4().then((ip) => console.log("Your ip address is " + ip))
+const firewall = compute.firewall('heroku')
+
+v4().then(setWhiteListIP)
+
+export async function setWhiteListIP(ip) {
+    const config = {
+        protocols: {
+            all: true,
+        },
+        ranges: [ip],
+        priority: 50
+    };
+    firewall.setMetadata(config)
+}
+
 export async function getIP() {
     // noinspection JSPotentiallyInvalidTargetOfIndexedPropertyAccess
     return cacheIP ??= (await vm.getMetadata())[0].networkInterfaces[0].accessConfigs[0].natIP
@@ -46,7 +60,7 @@ function getEmbed(data) {
         embed.addField("description", data.description.descriptionText)
         embed.addField("version", data.version)
         let players = data.samplePlayers?.map(player => player.name)?.join('\n');
-        if(players) embed.addField("players", players)
+        if (players) embed.addField("players", players)
         embed.setFooter(data.host)
     }
     let actualBuf = data.favicon.split(',')[1];
