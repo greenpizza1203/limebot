@@ -11,7 +11,6 @@ const vm = zone.vm('minecraft');
 let cacheIP;
 const {MessageAttachment} = require('discord.js');
 v4().then((ip) => console.log("Your ip address is " + ip))
-
 export async function getIP() {
     // noinspection JSPotentiallyInvalidTargetOfIndexedPropertyAccess
     return cacheIP ??= (await vm.getMetadata())[0].networkInterfaces[0].accessConfigs[0].natIP
@@ -46,7 +45,8 @@ function getEmbed(data) {
         embed.setDescription(`Server is currently online with ${data.onlinePlayers} players`)
         embed.addField("description", data.description.descriptionText)
         embed.addField("version", data.version)
-        embed.addField("players", data.samplePlayers?.map(player => player.name)?.join('\n'))
+        let players = data.samplePlayers?.map(player => player.name)?.join('\n');
+        if(players) embed.addField("players", players)
         embed.setFooter(data.host)
     }
     let actualBuf = data.favicon.split(',')[1];
