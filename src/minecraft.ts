@@ -22,8 +22,8 @@ export async function setWhiteListIP(ip) {
         ranges: [ip],
         priority: 50
     };
-   await  firewall.setMetadata(config)
-    console.log("Firewall updated to "+ip)
+    await firewall.setMetadata({"sourceRanges": [ip]})
+    console.log("Firewall updated to " + ip)
 }
 
 export async function getIP() {
