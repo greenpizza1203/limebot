@@ -595,26 +595,6 @@ google-p12-pem@^3.0.3:
   dependencies:
     node-forge "^0.10.0"
 
-googleapis-common@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/googleapis-common/-/googleapis-common-5.0.1.tgz#443888c8eca85a7f005b7b244e5c80eff92352e3"
-  integrity sha512-b6SfpxLKVxFM7EQkRjhMrSWKLnRXf7r3Y4L4PZI8Yu8SWsGzfw+0ar7eqdwXnjZ2s+jwRHmxwnHaSP8anlgN5w==
-  dependencies:
-    extend "^3.0.2"
-    gaxios "^4.0.0"
-    google-auth-library "^7.0.2"
-    qs "^6.7.0"
-    url-template "^2.0.8"
-    uuid "^8.0.0"
-
-googleapis@^67.1.0:
-  version "67.1.0"
-  resolved "https://registry.yarnpkg.com/googleapis/-/googleapis-67.1.0.tgz#95d1c107f00e053b9b5113b48e8ef16bec6bf8db"
-  integrity sha512-FBjPY9a4HBwb47E1M49ziPChhvox5jQkhgmVDkPBHuiAK14iXKk/qenoClDWaqZisqdLMZ/jvwq68t974oBcXA==
-  dependencies:
-    google-auth-library "^7.0.2"
-    googleapis-common "^5.0.1"
-
 graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0:
   version "4.2.4"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.4.tgz#2256bde14d3632958c465ebc96dc467ca07a29fb"
@@ -1049,11 +1029,6 @@ pseudomap@^1.0.2:
   resolved "https://registry.yarnpkg.com/pseudomap/-/pseudomap-1.0.2.tgz#f052a28da70e618917ef0a8ac34c1ae5a68286b3"
   integrity sha1-8FKijacOYYkX7wqKw0wa5aaChrM=
 
-qs@^6.7.0:
-  version "6.9.6"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.9.6.tgz#26ed3c8243a431b2924aca84cc90471f35d5a0ee"
-  integrity sha512-TIRk4aqYLNoJUbd+g2lEdz5kLWIuTMRagAXxl78Q0RiVjAOugHmeKNGdd3cwo/ktpf9aL9epCfFqWDEKysUlLQ==
-
 read-pkg-up@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/read-pkg-up/-/read-pkg-up-1.0.1.tgz#9d63c13276c065918d57f002a57f40a1b643fb02"
@@ -1339,11 +1314,6 @@ universalify@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/universalify/-/universalify-2.0.0.tgz#75a4984efedc4b08975c5aeb73f530d02df25717"
   integrity sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==
-
-url-template@^2.0.8:
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/url-template/-/url-template-2.0.8.tgz#fc565a3cccbff7730c775f5641f9555791439f21"
-  integrity sha1-/FZaPMy/93MMd19WQflVV5FDnyE=
 
 util-deprecate@^1.0.1:
   version "1.0.2"
