@@ -1,19 +1,16 @@
 import {Message, MessageEmbed} from "discord.js";
-import axios from "axios";
 import Compute from "@google-cloud/compute";
 
 import util from "minecraft-server-util";
 
-const client = axios.create({
-    baseURL: 'https://google-minecraft-server.herokuapp.com/'
-});
+import {v4} from "public-ip";
 
 const compute = new Compute({projectId: "minecraft-305223", keyFilename: "minecraft.json"});
 const zone = compute.zone('us-east4-c');
 const vm = zone.vm('minecraft');
 let cacheIP;
 const {MessageAttachment} = require('discord.js');
-
+v4().then((ip) => console.log("Your ip address is " + ip))
 
 export async function getIP() {
     // noinspection JSPotentiallyInvalidTargetOfIndexedPropertyAccess
@@ -39,7 +36,7 @@ export async function getMinecraftStatus() {
 }
 
 function getEmbed(data) {
-    console.log(data)
+    // console.log(data)
     const embed = new MessageEmbed()
     embed.setTitle("Minecraft Server Status")
     embed.setColor("#00ff00")
@@ -49,7 +46,7 @@ function getEmbed(data) {
         embed.setDescription(`Server is currently online with ${data.onlinePlayers} players`)
         embed.addField("description", data.description.descriptionText)
         embed.addField("version", data.version)
-        embed.addField("players", data.samplePlayers?.map(player=>player.name)?.join('\n'))
+        embed.addField("players", data.samplePlayers?.map(player => player.name)?.join('\n'))
         embed.setFooter(data.host)
     }
     let actualBuf = data.favicon.split(',')[1];
