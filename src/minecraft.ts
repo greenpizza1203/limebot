@@ -15,13 +15,7 @@ const firewall = compute.firewall('heroku')
 v4().then(setWhiteListIP)
 
 export async function setWhiteListIP(ip) {
-    const config = {
-        protocols: {
-            all: true,
-        },
-        ranges: [ip],
-        priority: 50
-    };
+    if (process.env.DEV) return
     await firewall.setMetadata({"sourceRanges": [ip]})
     console.log("Firewall updated to " + ip)
 }
@@ -46,6 +40,24 @@ export async function getMinecraftStatus() {
     }
     return {embed: getEmbed(data)}
 
+}
+
+let lastIndex = 0;
+
+async function getLogs() {
+    let [log, {next}] = await vm.getSerialPortOutput(1, {start: lastIndex});
+    const lines = log.split('\n');
+    let actualLines = []
+    for (let i = lines.length - 1; i >= 0; i--) {
+        const line = lines[i];
+        next -= line.length + 1;
+        if (line.indexOf("java") != -1) {
+            actualLines.push(line.split(' ').slice(0,3).join(' ')+line.split(":")[6])
+        }
+        if (actualLines.length >= 10) break;
+    }
+    lastIndex = next;
+    return "```"+actualLines.join('\n')+"```"
 
 }
 
@@ -72,8 +84,6 @@ function getEmbed(data) {
     return embed
 }
 
-// console.log(embed)
-
 
 export async function getStatus() {
     const status = await getVMStatus()
@@ -84,11 +94,17 @@ export async function getStatus() {
 export async function minecraft(msg: Message) {
     const command = msg.content.split(' ');
     if (command[1] == "status") {
-        let content = await getStatus();
-        msg.reply(content)
+        msg.reply(await getStatus())
     } else if (command[1] == "start") {
         await vm.start()
     } else if (command[1] == "stop") {
         await vm.stop();
+    } else if (command[1] == "logs") {
+        msg.reply(await getLogs())
+
     }
 }
+
+// minecraft({content: "!minecraft logs", reply: (a) => {
+//     }
+// })
