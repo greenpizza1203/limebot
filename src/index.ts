@@ -6,7 +6,7 @@ import {schoology} from "./schoology";
 import {minecraft} from "./minecraft";
 
 const botTestChannelId = "720444800083689553";
-export const client = new Discord.Client();
+ const client = new Discord.Client();
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
