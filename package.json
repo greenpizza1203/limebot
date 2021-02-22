@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "start": "ts-node --transpile-only src/index.ts",
-    "userdata": "ts-node src/userdata.ts"
+    "userdata": "ts-node --transpile-only src/userdata.ts"
   },
   "keywords": [],
   "author": "",
