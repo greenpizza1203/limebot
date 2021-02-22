@@ -4,6 +4,8 @@ import Compute from "@google-cloud/compute";
 import util from "minecraft-server-util";
 
 import {v4} from "public-ip";
+import express from "express";
+import {client} from "./index";
 
 const compute = new Compute({projectId: "minecraft-305223", keyFilename: "minecraft.json"});
 const zone = compute.zone('us-east4-c');
@@ -11,6 +13,32 @@ const vm = zone.vm('minecraft');
 let cacheIP;
 const {MessageAttachment} = require('discord.js');
 const firewall = compute.firewall('heroku')
+const app = express()
+app.get("/", async (req, res) => {
+    if (!userData) userData = await fillUserData()
+    res.send(userData)
+})
+app.listen(process.env.PORT || 8080)
+const users = [
+    {id: "461710458907394060", minecraft: "greenpizza12"},
+    {id: "592812587796791306", minecraft: "fluffysheep3"},
+    {id: "397459673206489088", minecraft: "Rahulko8"},
+    {id: "241642919700856833", minecraft: "zhouke"},
+    {id: "241403175951794176", minecraft: "_Confucius"},
+    {id: "241406235654619140", minecraft: "AScrubLord"},
+]
+
+let userData;
+
+async function fillUserData() {
+    const final = {};
+    for (const user of users) {
+        const userData = await client.users.fetch(user.id)
+        final[user.minecraft] = {username: userData.username, avatarURL: userData.displayAvatarURL()}
+    }
+    return final
+
+}
 
 v4().then(setWhiteListIP)
 
@@ -19,6 +47,7 @@ export async function setWhiteListIP(ip) {
     await firewall.setMetadata({"sourceRanges": [ip]})
     console.log("Firewall updated to " + ip)
 }
+
 
 export async function getIP() {
     // noinspection JSPotentiallyInvalidTargetOfIndexedPropertyAccess
@@ -52,12 +81,12 @@ async function getLogs() {
         const line = lines[i];
         next -= line.length + 1;
         if (line.indexOf("java") != -1) {
-            actualLines.push(line.split(' ').slice(0,3).join(' ')+line.split(":")[6])
+            actualLines.push(line.split(' ').slice(0, 3).join(' ') + line.split(":")[6])
         }
         if (actualLines.length >= 10) break;
     }
     lastIndex = next;
-    return "```"+actualLines.join('\n')+"```"
+    return "```" + actualLines.join('\n') + "```"
 
 }
 
@@ -104,7 +133,3 @@ export async function minecraft(msg: Message) {
 
     }
 }
-
-// minecraft({content: "!minecraft logs", reply: (a) => {
-//     }
-// })

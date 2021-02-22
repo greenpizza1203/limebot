@@ -1,17 +1,17 @@
 import {thonkify} from "./thonkify";
 import * as Discord from 'discord.js'
+import {Message} from 'discord.js'
 import {meme} from "./meme";
 import {schoology} from "./schoology";
 import {minecraft} from "./minecraft";
-import {Message} from "discord.js";
 
 const botTestChannelId = "720444800083689553";
-const client = new Discord.Client();
+export const client = new Discord.Client();
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
-const funcs:Record<string, (message:Message) => {}> = {
+const funcs: Record<string, (message: Message) => {}> = {
     thonkify,
     meme,
     schoology,
@@ -27,7 +27,7 @@ client.on('message', async msg => {
         await msg.reply('Pong!');
     } else if (msg.content.startsWith("!thonkify ") || msg.content.startsWith("!thonk ")) {
 
-    thonkify(msg)
+        thonkify(msg)
 
     } else if (msg.content.toLowerCase() === "f") {
         let bongocat = msg.guild.emojis.cache.find(emoji => emoji.name === "rip");
@@ -38,28 +38,9 @@ client.on('message', async msg => {
     } else if (msg.content.startsWith("!schoology ")) {
         schoology(msg)
     } else if (msg.content.startsWith("!minecraft ")) {
-minecraft(msg)
+        minecraft(msg)
     }
 });
 
-async function init() {
-    // await initPosgres()
-    // meme({
-    //     content: "!meme list", reply: () => {
-    //     }
-    // })
-    client.login(process.env["token"]);
-}
+client.login(process.env["token"]);
 
-init()
-
-// import haiku from "./haiku";
-//
-// // @ts-ignore
-// haiku({
-//     content: "the eclipse is night tomorrow the moon conceals shadow over us",
-//     // @ts-ignore
-//     reply: text => {
-//         console.log(text)
-//     }
-// })
