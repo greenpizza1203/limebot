@@ -23,6 +23,7 @@
     "axios": "^0.21.1",
     "axios-oauth-1.0a": "^0.2.1",
     "bufferutil": "^4.0.3",
+    "cron": "^1.8.2",
     "discord.js": "^12.5.1",
     "erlpack": "discord/erlpack",
     "express": "^4.17.1",
