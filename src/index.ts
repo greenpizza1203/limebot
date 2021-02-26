@@ -6,6 +6,7 @@ import {schoology} from "./schoology";
 import {minecraft} from "./minecraft";
 import moment from "moment";
 import {CronJob} from "cron"
+
 const botTestChannelId = "720444800083689553";
 const client = new Discord.Client();
 
@@ -49,8 +50,7 @@ async function tick() {
     const a = moment('05/22/2021', 'MM/DD/YYYY');
     const b = moment();
     const diff = a.diff(b, 'days')
-    console.log(diff)
-    channel.send(diff)
+    channel.send(`${diff} days to graduation`)
 }
 
 var job = new CronJob('0 30 7 * * *', tick, null, true);
