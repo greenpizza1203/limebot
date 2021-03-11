@@ -1,11 +1,10 @@
 import {thonkify} from "./thonkify";
 import * as Discord from 'discord.js'
-import {Message, TextChannel} from 'discord.js'
+import {Message} from 'discord.js'
 import {meme} from "./meme";
 import {schoology} from "./schoology";
 import {minecraft} from "./minecraft";
-import moment from "moment";
-import {CronJob} from "cron"
+import {days} from "./days";
 
 const botTestChannelId = "720444800083689553";
 const client = new Discord.Client();
@@ -14,21 +13,25 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 const funcs: Record<string, (message: Message) => {}> = {
+    thonk: thonkify,
     thonkify,
     meme,
     schoology,
-    minecraft
+    minecraft,
+    days
 }
 client.on('message', async msg => {
     if (process.env.DEV && msg.channel.id !== botTestChannelId) return
     if (!process.env.DEV && msg.channel.id === botTestChannelId) return
     if (msg.author.bot) return;
-    if (msg.content === 'ping') {
-        await msg.reply('Pong!');
+    let command = msg.content.split(' ')[0].slice(1);
+
+    if (funcs[command]) {
+       await funcs[command](msg)
+    } else if (msg.content === 'ping') {
+        msg.reply('Pong!');
     } else if (msg.content.startsWith("!thonkify ") || msg.content.startsWith("!thonk ")) {
-
         thonkify(msg)
-
     } else if (msg.content.toLowerCase() === "f") {
         let bongocat = msg.guild.emojis.cache.find(emoji => emoji.name === "rip");
         console.log(bongocat.toString())
@@ -43,14 +46,7 @@ client.on('message', async msg => {
 });
 
 
-client.login(process.env["token"]).then(tick);
+client.login(process.env["token"])
 
-async function tick() {
-    const channel = await client.channels.fetch("292745734409682944") as TextChannel
-    const a = moment('05/22/2021', 'MM/DD/YYYY');
-    const b = moment();
-    const diff = a.diff(b, 'days')
-    channel.send(`${diff} days to graduation`)
-}
 
-var job = new CronJob('0 30 7 * * *', tick, null, true);
+// var job = new CronJob('0 30 7 * * *', tick, null, true);

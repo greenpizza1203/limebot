@@ -30,7 +30,9 @@ export async function getMeme(template_id: string, boxes: { [p: string]: string 
     return response?.data?.data?.url
 }
 
+
 export async function meme(msg: Message) {
+    console.log('huh')
     const command = msg.content.split(' ');
     if (command[1] == "list") {
         const result = await postgres.query("SELECT * FROM memes")
