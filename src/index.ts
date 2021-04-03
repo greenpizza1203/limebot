@@ -5,6 +5,7 @@ import {meme} from "./meme";
 import {schoology} from "./schoology";
 import {minecraft} from "./minecraft";
 import {days} from "./days";
+import urbandictiorary from "./urbandictionary";
 
 const botTestChannelId = "720444800083689553";
 const client = new Discord.Client();
@@ -18,7 +19,8 @@ const funcs: Record<string, (message: Message) => {}> = {
     meme,
     schoology,
     minecraft,
-    days
+    days,
+    ud: urbandictiorary
 }
 client.on('message', async msg => {
     if (process.env.DEV && msg.channel.id !== botTestChannelId) return
@@ -27,7 +29,7 @@ client.on('message', async msg => {
     let command = msg.content.split(' ')[0].slice(1);
 
     if (funcs[command]) {
-       await funcs[command](msg)
+        await funcs[command](msg)
     } else if (msg.content === 'ping') {
         msg.reply('Pong!');
     } else if (msg.content.startsWith("!thonkify ") || msg.content.startsWith("!thonk ")) {
