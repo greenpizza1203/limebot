@@ -20,7 +20,7 @@ const funcs: Record<string, (message: Message) => {}> = {
     schoology,
     minecraft,
     days,
-    ud: urbandictiorary
+    urban: urbandictiorary
 }
 client.on('message', async msg => {
     if (process.env.DEV && msg.channel.id !== botTestChannelId) return
