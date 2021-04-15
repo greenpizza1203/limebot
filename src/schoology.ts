@@ -64,19 +64,20 @@ async function reloadAssignments() {
         }
 
     }
+    console.log("reload complete")
+
 }
 
 let existingAssignments = [];
 let gradingSections = {};
 
 async function findAssignment(title: string) {
-    title = title.toLowerCase()
-    let assignment = existingAssignments.find(it => it.title.toLowerCase().includes(title));
-    if (!assignment) {
-        await reloadAssignments();
-    }
-    return existingAssignments.find(it => it.title.toLowerCase().includes(title));
+    let lower = title.trim().toLowerCase()
+    console.log(title)
+    let assignment = existingAssignments.find(it => it.title.toLowerCase().includes(lower));
+    if (!assignment) await reloadAssignments();
+    return existingAssignments.find(it => it.title.toLowerCase().includes(lower));
 }
 
-
+reloadAssignments()
 
