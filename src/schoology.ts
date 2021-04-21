@@ -45,7 +45,7 @@ async function getAssignment(section, assignment) {
 }
 
 async function reloadAssignments() {
-    console.log("reload")
+    console.log("reloading schoology assignments")
     const {data} = await client.get("users/27296077/sections")
     let sections: number[] = data.section.map(it => it.id);
     for (const section of sections) {
@@ -64,7 +64,6 @@ async function reloadAssignments() {
         }
 
     }
-    console.log("reload complete")
 
 }
 
@@ -73,7 +72,6 @@ let gradingSections = {};
 
 async function findAssignment(title: string) {
     let lower = title.trim().toLowerCase()
-    console.log(title)
     let assignment = existingAssignments.find(it => it.title.toLowerCase().includes(lower));
     if (!assignment) await reloadAssignments();
     return existingAssignments.find(it => it.title.toLowerCase().includes(lower));
