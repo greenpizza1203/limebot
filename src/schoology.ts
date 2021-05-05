@@ -77,5 +77,5 @@ async function findAssignment(title: string) {
     return existingAssignments.find(it => it.title.toLowerCase().includes(lower));
 }
 
-reloadAssignments()
+if (!process.env.DEV) reloadAssignments()
 

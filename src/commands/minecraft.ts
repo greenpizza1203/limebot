@@ -4,8 +4,7 @@ import Compute from "@google-cloud/compute";
 import util from "minecraft-server-util";
 
 import {v4} from "public-ip";
-import express from "express";
-import {client} from "./index";
+import {addCommand} from "../commands";
 
 const compute = new Compute({projectId: "minecraft-305223", keyFilename: "minecraft.json"});
 const zone = compute.zone('us-east4-c');

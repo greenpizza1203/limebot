@@ -1,6 +1,7 @@
 import gm from "gm";
 import {ensureDirSync} from "fs-extra";
 import {Message} from "discord.js";
+import {addCommand} from "../commands";
 
 ensureDirSync(`temp`)
 const images = {
@@ -15,10 +16,9 @@ for (let i = 0; i < 26; i++) {
 
 
 export async function thonkify(msg: Message) {
-
+    console.log("df")
     const text = msg.content.substr(msg.content.indexOf(" ") + 1)
     const outputPath = `temp/temp.png`;
-
 
     const image = gm();
 
@@ -27,9 +27,9 @@ export async function thonkify(msg: Message) {
         if (!letterPath) {
             letterPath = images.nothing;
         }
-        image.append(`${__dirname}/../images/${letterPath}`).append(true);
+        image.append(`${__dirname}/../../images/${letterPath}`).append(true);
 
-        if (i != text.length - 1) image.append(`${__dirname}/../images/gap.png`).append(true);
+        if (i != text.length - 1) image.append(`${__dirname}/../../images/gap.png`).append(true);
     }
 
     // return new Promise<void>((res, rej) => {
@@ -39,4 +39,6 @@ export async function thonkify(msg: Message) {
         msg.delete()
     })
 }
+
+addCommand("!thonk", thonkify)
 
