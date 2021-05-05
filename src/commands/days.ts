@@ -1,14 +1,14 @@
 import moment from "moment";
 import {addCommand} from "../commands";
 
+const graduation = moment('May 22nd 2021, 10:00 am -0400', 'MMMM Do YYYY, h:mm a');
+
 export async function days() {
-    const a = moment('May 22nd 2021, 10:00 am', 'MMMM Do YYYY, h:mm a');
-    return `graduation ${a.fromNow()}`;
+    return `graduation ${graduation.fromNow()}`;
 }
 
 export async function hours() {
-    const a = moment('May 22nd 2021, 10:00 am', 'MMMM Do YYYY, h:mm a');
-    let number = a.diff(moment.now(), 'hours', false);
+    let number = graduation.diff(moment.now(), 'hours', false);
     return `graduation in ${number} hours`;
 }
 
