@@ -1,7 +1,8 @@
 import moment from "moment";
 import {addCommand} from "../commands";
 
-const graduation = moment('May 22nd 2021, 10:00 am -0400', 'MMMM Do YYYY, h:mm a');
+const graduation = moment('22 May 21 10:00 EDT');
+
 
 export async function days() {
     return `graduation ${graduation.fromNow()}`;
