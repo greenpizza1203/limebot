@@ -1,2 +1,2 @@
-worker: yarn start
-web: yarn run userdata
+worker: npm run start
+web: npm run userdata

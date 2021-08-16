@@ -1,29 +1,39 @@
-import {Message} from "discord.js";
-import fse from "fs";
+import fs from "fs";
+import path from "path";
+import {REST} from "@discordjs/rest";
 
-let dir = __dirname + '/commands/';
+import {SlashCommandBuilder} from "@discordjs/builders";
+import {CommandInteraction} from "discord.js";
 
-type Command = (msg: Message, ...args: string[]) => void | string | Promise<string | void>;
+import {Routes} from "discord-api-types/v9";
 
-export function addCommand(prefix: string | string[] | ((string) => boolean) | Command, func?: Command) {
 
-    let matcher = prefix;
-    if (!func) {
-        matcher = it => it.startsWith("!" + (prefix as Command).name);
-        func = prefix as Command;
-    }
-    if (Array.isArray(prefix)) {
-        matcher = prefix.includes.bind(prefix)
-    } else if (typeof prefix == "string") {
-        matcher = it => it.startsWith(prefix)
-    }
-    registered.push({matcher, func})
+const rest = new REST({version: '9'}).setToken(process.env.token);
+export const CLIENT_ID = '715571596152143934';
+export const GUILD_ID = '292745734409682944';
+const commands = [];
+const funcs = {};
 
+export async function loadCommands() {
+
+
+    const commandFiles = fs.readdirSync(path.join(__dirname, 'commands'));
+    for (const file of commandFiles) require(`./commands/${file}`);
+    await rest.put(
+        Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID),
+        {body: commands},
+    );
 }
 
-export const registered = []
-fse.readdirSync(dir).forEach(filename => {
-    require(dir + filename)
-});
 
+export function addCommand(command: SlashCommandBuilder, func: () => string) {
+    commands.push(command);
+    funcs[command.name] = func;
+}
 
+export function executeCommand(interaction: CommandInteraction) {
+    let func = funcs[interaction.commandName];
+    let output = func(interaction);
+    if(output) interaction.reply(output);
+    return func();
+}
