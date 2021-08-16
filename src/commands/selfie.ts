@@ -18,6 +18,6 @@ scheduleJob('* * 3 * *', () => {
 function sendMessage() {
     if (process.env.DEV) return;
     const channel = client.channels.cache.get(channels.nerdChat) as TextChannel;
-    channel.send('<@715571596152143934> Selfie time!');
+    channel.send('<@&755951750787235850> Selfie time!');
     console.log('Selfie message sent at' + new Date());
 }
